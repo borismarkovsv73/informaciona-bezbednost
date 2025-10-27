@@ -29,7 +29,7 @@ A complete Public Key Infrastructure (PKI) management system built with Spring B
 
 ## Quick Start
 
-### 1. Start Backend (HTTPS)
+### 1. Start Backend
 ```powershell
 .\mvnw.cmd clean spring-boot:run
 ```

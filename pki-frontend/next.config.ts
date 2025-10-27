@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 
 const nextConfig: NextConfig = {
-  // Restore API proxy to handle CORS and certificate issues
   async rewrites() {
     return [
       {

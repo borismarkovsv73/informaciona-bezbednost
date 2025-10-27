@@ -4,19 +4,16 @@ const next = require('next');
 const fs = require('fs');
 const path = require('path');
 
-// Disable SSL verification for development (for proxy requests to backend)
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
 const port = 3000;
 
-// Initialize Next.js
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  // Load PKI certificate
   const httpsOptions = {
     pfx: fs.readFileSync(path.join(__dirname, 'certs', 'localhost.p12')),
     passphrase: 'keystorePassword123'
