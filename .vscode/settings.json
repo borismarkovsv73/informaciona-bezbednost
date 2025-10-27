@@ -1,0 +1,15 @@
+{
+    "java.configuration.workspaceCacheLimit": 90,
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.import.gradle.enabled": true,
+    "java.import.maven.enabled": true,
+    "java.project.sourcePaths": [
+        "pki-backend/src/main/java"
+    ],
+    "java.project.referencedLibraries": [
+        "pki-backend/lib/**/*.jar"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.clean.workspace": false,
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

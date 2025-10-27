@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch PKI Backend",
+            "request": "launch",
+            "mainClass": "com.pki.PkiBackendApplication",
+            "projectName": "pki-backend",
+            "cwd": "${workspaceFolder}/pki-backend",
+            "vmArgs": "-Dspring.profiles.active=dev",
+            "args": "",
+            "console": "internalConsole"
+        },
+        {
+            "type": "java",
+            "name": "Launch PKI Backend (Production)",
+            "request": "launch",
+            "mainClass": "com.pki.PkiBackendApplication",
+            "projectName": "pki-backend",
+            "cwd": "${workspaceFolder}/pki-backend",
+            "args": "",
+            "console": "internalConsole"
+        }
+    ]
+}
