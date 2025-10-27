@@ -30,19 +30,19 @@ A complete Public Key Infrastructure (PKI) management system built with Spring B
 ## Quick Start
 
 ### 1. Start Backend (HTTPS)
-```bash
-start-backend-https.bat
+```powershell
+.\mvnw.cmd clean spring-boot:run
 ```
 Backend will run on `https://localhost:8443`
 
 ### 2. Start Frontend
 ```bash
-start-frontend-https.bat
+npm run dev:pki    
 ```
-Frontend will run on `http://localhost:3000`
+Frontend will run on `https://localhost:3000`
 
 ### 3. Access the Application
-- Open `http://localhost:3000`
+- Open `https://localhost:3000`
 - Login with: `admin` / `admin123`
 - Start creating certificates through the PKI system
 

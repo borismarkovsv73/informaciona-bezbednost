@@ -23,7 +23,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor for token refresh
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -46,14 +45,12 @@ api.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return api(originalRequest);
         } catch (refreshError) {
-          // Refresh failed, redirect to login
           Cookies.remove('accessToken');
           Cookies.remove('refreshToken');
           window.location.href = '/login';
           return Promise.reject(refreshError);
         }
       } else {
-        // No refresh token, redirect to login
         window.location.href = '/login';
       }
     }
