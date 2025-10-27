@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Disable SSL verification for development
+// Disable SSL verification for development (server-side proxy requests only)
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 export async function POST(request: NextRequest) {

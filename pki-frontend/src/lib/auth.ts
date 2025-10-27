@@ -23,10 +23,10 @@ export class AuthService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
-        // For development with self-signed certificates
         mode: 'cors',
-        // Additional options for HTTPS with self-signed certificates
         cache: 'no-cache',
+        // For development with PKI certificates - browser will show security warning initially
+        credentials: 'omit', // Don't send cookies cross-origin
       });
       
       console.log('Response status:', response.status);
@@ -44,9 +44,8 @@ export class AuthService {
     } catch (error) {
       console.error('Login error details:', error);
       
-      // Check if it's a network error (CORS, SSL, etc.)
       if (error instanceof TypeError && error.message.includes('fetch')) {
-        throw new Error('Cannot connect to server. Please check if the backend is running on HTTPS.');
+        throw new Error('Cannot connect to backend. This may be due to:\n1. Backend not running on https://localhost:8443\n2. Browser blocking self-signed certificate\n\nTo fix: Visit https://localhost:8443 first and accept the certificate, then try logging in again.');
       }
       
       throw error;

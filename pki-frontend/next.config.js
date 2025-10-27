@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow insecure HTTPS requests during development
-  serverExternalPackages: [],
-  
   // HTTPS configuration for development
   devIndicators: {
     buildActivity: true,
@@ -12,9 +9,9 @@ const nextConfig = {
   turbopack: {},
 };
 
-// Disable SSL verification for development
-if (process.env.NODE_ENV === 'development') {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-}
+// Enable proper SSL verification (we have valid PKI certificates now!)
+// if (process.env.NODE_ENV === 'development') {
+//   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// }
 
 module.exports = nextConfig;

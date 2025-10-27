@@ -3,12 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const nextConfig: NextConfig = {
-  // Enable HTTPS for development
-  experimental: {
-    // Configure HTTPS for dev server when certificates are available
-  },
-  
-  // API configuration for HTTPS backend
+  // Restore API proxy to handle CORS and certificate issues
   async rewrites() {
     return [
       {

@@ -1,0 +1,11 @@
+{
+  "commonName": "localhost",
+  "organization": "PKI Frontend",
+  "organizationalUnit": "Development", 
+  "country": "RS",
+  "state": "Vojvodina",
+  "locality": "Novi Sad",
+  "type": "END_ENTITY",
+  "validityYears": 1,
+  "issuerSerialNumber": "976918090301376709904976759063013523135637726239"
+}

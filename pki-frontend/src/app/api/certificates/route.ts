@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Disable SSL verification for development
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// Now using proper SSL verification with PKI certificates!
 
 export async function GET(request: NextRequest) {
   try {

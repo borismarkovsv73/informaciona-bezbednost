@@ -6,6 +6,7 @@
     "dev": "next dev --port 3000",
     "dev:https": "next dev --port 3000 --experimental-https",
     "dev:secure": "HTTPS=true next dev --port 3000",
+    "dev:pki": "node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
