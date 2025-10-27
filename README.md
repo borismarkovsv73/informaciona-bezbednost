@@ -44,16 +44,7 @@ Frontend will run on `http://localhost:3000`
 ### 3. Access the Application
 - Open `http://localhost:3000`
 - Login with: `admin` / `admin123`
-- Start creating certificates through your PKI system
-
-## Project Specification Compliance
-
-✅ **HTTPS Communication**: Complete HTTPS setup using PKI-generated certificates  
-✅ **Authentication & Authorization**: JWT-based security with endpoint protection  
-✅ **Access Control**: Unauthenticated users restricted to login page only  
-✅ **PKI-Generated Certificates**: Using own PKI system for HTTPS (additional points)
-
-See `PROJECT-SPECIFICATION-COMPLIANCE.md` for detailed compliance verification.
+- Start creating certificates through the PKI system
 
 ## API Endpoints
 
@@ -82,19 +73,6 @@ See `PROJECT-SPECIFICATION-COMPLIANCE.md` for detailed compliance verification.
 - **Private Key Encryption**: AES encryption for stored private keys
 - **Access Control**: Role-based authorization
 - **Certificate Validation**: Proper certificate chain validation
-
-## Verification
-
-Run the project specification verification:
-```bash
-verify-project-specification.bat
-```
-
-This validates:
-- HTTPS communication setup
-- PKI certificate usage
-- Authentication and access control
-- Endpoint protection
 
 ## Default Credentials
 
