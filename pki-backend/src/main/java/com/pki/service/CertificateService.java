@@ -45,6 +45,9 @@ public class CertificateService {
     @Autowired
     private EncryptionService encryptionService;
 
+        @Autowired
+        private KeyManagementService keyManagementService;
+
     @Value("${pki.keystore-password}")
     private String keystorePassword;
 
@@ -111,7 +114,8 @@ public class CertificateService {
                     country, state, locality, Certificate.CertificateType.SELF_SIGNED_ROOT);
             certificate.setSerialNumber(serialNumber.toString());
             certificate.setCertificateData(Base64.getEncoder().encodeToString(certPem.getBytes()));
-            certificate.setEncryptedPrivateKey(encryptionService.encryptPrivateKey(privateKeyPem));
+            byte[] dek = keyManagementService.getDekForOrganization(organization);
+            certificate.setEncryptedPrivateKey(encryptionService.encryptWithKey(dek, privateKeyPem));
             certificate.setExpiresAt(notAfter.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 
             return certificateRepository.save(certificate);
@@ -135,8 +139,9 @@ public class CertificateService {
             keyPairGenerator.initialize(2048);
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-            // Get issuer private key
-            String issuerPrivateKeyPem = encryptionService.decryptPrivateKey(issuerCert.getEncryptedPrivateKey());
+            // Get issuer private key (use issuer's organization DEK)
+            byte[] issuerDek = keyManagementService.getDekForOrganization(issuerCert.getOrganization());
+            String issuerPrivateKeyPem = encryptionService.decryptWithKey(issuerDek, issuerCert.getEncryptedPrivateKey());
             PrivateKey issuerPrivateKey = loadPrivateKeyFromPem(issuerPrivateKeyPem);
 
             // Get issuer certificate
@@ -194,7 +199,8 @@ public class CertificateService {
                     country, state, locality, Certificate.CertificateType.INTERMEDIATE);
             certificate.setSerialNumber(serialNumber.toString());
             certificate.setCertificateData(Base64.getEncoder().encodeToString(certPem.getBytes()));
-            certificate.setEncryptedPrivateKey(encryptionService.encryptPrivateKey(privateKeyPem));
+            byte[] dek = keyManagementService.getDekForOrganization(organization);
+            certificate.setEncryptedPrivateKey(encryptionService.encryptWithKey(dek, privateKeyPem));
             certificate.setExpiresAt(notAfter.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
             certificate.setIssuerSerialNumber(issuerSerialNumber);
 
@@ -219,8 +225,9 @@ public class CertificateService {
             keyPairGenerator.initialize(2048);
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-            // Get issuer private key
-            String issuerPrivateKeyPem = encryptionService.decryptPrivateKey(issuerCert.getEncryptedPrivateKey());
+            // Get issuer private key (use issuer's organization DEK)
+            byte[] issuerDek = keyManagementService.getDekForOrganization(issuerCert.getOrganization());
+            String issuerPrivateKeyPem = encryptionService.decryptWithKey(issuerDek, issuerCert.getEncryptedPrivateKey());
             PrivateKey issuerPrivateKey = loadPrivateKeyFromPem(issuerPrivateKeyPem);
 
             // Get issuer certificate
@@ -278,7 +285,8 @@ public class CertificateService {
                     country, state, locality, Certificate.CertificateType.END_ENTITY);
             certificate.setSerialNumber(serialNumber.toString());
             certificate.setCertificateData(Base64.getEncoder().encodeToString(certPem.getBytes()));
-            certificate.setEncryptedPrivateKey(encryptionService.encryptPrivateKey(privateKeyPem));
+            byte[] dek = keyManagementService.getDekForOrganization(organization);
+            certificate.setEncryptedPrivateKey(encryptionService.encryptWithKey(dek, privateKeyPem));
             certificate.setExpiresAt(notAfter.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
             certificate.setIssuerSerialNumber(issuerSerialNumber);
 
@@ -314,8 +322,9 @@ public class CertificateService {
             Certificate cert = certificateRepository.findBySerialNumber(serialNumber)
                     .orElseThrow(() -> new RuntimeException("Certificate not found"));
 
-            // Decrypt private key
-            String privateKeyPem = encryptionService.decryptPrivateKey(cert.getEncryptedPrivateKey());
+            // Decrypt private key using org-specific DEK
+            byte[] dek = keyManagementService.getDekForOrganization(cert.getOrganization());
+            String privateKeyPem = encryptionService.decryptWithKey(dek, cert.getEncryptedPrivateKey());
             PrivateKey privateKey = loadPrivateKeyFromPem(privateKeyPem);
 
             // Load certificate

@@ -67,6 +67,30 @@ public class EncryptionService {
         }
     }
 
+    public String encryptWithKey(byte[] keyBytes, String privateKeyPem) {
+        try {
+            SecretKeySpec secretKey = new SecretKeySpec(keyBytes, ALGORITHM);
+
+            byte[] iv = new byte[GCM_IV_LENGTH];
+            SecureRandom random = new SecureRandom();
+            random.nextBytes(iv);
+
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, spec);
+
+            byte[] encryptedBytes = cipher.doFinal(privateKeyPem.getBytes(StandardCharsets.UTF_8));
+
+            byte[] combined = new byte[iv.length + encryptedBytes.length];
+            System.arraycopy(iv, 0, combined, 0, iv.length);
+            System.arraycopy(encryptedBytes, 0, combined, iv.length, encryptedBytes.length);
+
+            return Base64.getEncoder().encodeToString(combined);
+        } catch (Exception e) {
+            throw new RuntimeException("Error encrypting private key with provided key", e);
+        }
+    }
+
     public String decryptPrivateKey(String encryptedPrivateKey) {
         try {
             SecretKey secretKey = getSecretKey();
@@ -90,6 +114,32 @@ public class EncryptionService {
             return new String(decryptedBytes, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new RuntimeException("Error decrypting private key", e);
+        }
+    }
+
+    public String decryptWithKey(byte[] keyBytes, String encryptedPrivateKey) {
+        try {
+            SecretKeySpec secretKey = new SecretKeySpec(keyBytes, ALGORITHM);
+
+            byte[] combined = Base64.getDecoder().decode(encryptedPrivateKey);
+            if (combined.length < GCM_IV_LENGTH) {
+                throw new RuntimeException("Invalid encrypted data");
+            }
+
+            byte[] iv = new byte[GCM_IV_LENGTH];
+            System.arraycopy(combined, 0, iv, 0, iv.length);
+
+            byte[] cipherText = new byte[combined.length - iv.length];
+            System.arraycopy(combined, iv.length, cipherText, 0, cipherText.length);
+
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, spec);
+
+            byte[] decryptedBytes = cipher.doFinal(cipherText);
+            return new String(decryptedBytes, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException("Error decrypting private key with provided key", e);
         }
     }
 }
