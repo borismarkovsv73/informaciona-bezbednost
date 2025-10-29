@@ -17,12 +17,10 @@ public class CertificateResponse {
     private boolean revoked;
     private LocalDateTime revokedAt;
     private String issuerSerialNumber;
-    private String certificateData; // Base64 encoded PEM
+    private String certificateData;
 
-    // Constructors
     public CertificateResponse() {}
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

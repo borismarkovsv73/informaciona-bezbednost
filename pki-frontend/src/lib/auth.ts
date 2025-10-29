@@ -25,7 +25,6 @@ export class AuthService {
         body: JSON.stringify(credentials),
         mode: 'cors',
         cache: 'no-cache',
-        // For development with PKI certificates - browser will show security warning initially
         credentials: 'omit', // Don't send cookies cross-origin
       });
       

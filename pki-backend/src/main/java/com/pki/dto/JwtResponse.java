@@ -6,7 +6,6 @@ public class JwtResponse {
     private String tokenType = "Bearer";
     private String username;
 
-    // Constructors
     public JwtResponse() {}
 
     public JwtResponse(String accessToken, String refreshToken, String username) {
@@ -15,7 +14,6 @@ public class JwtResponse {
         this.username = username;
     }
 
-    // Getters and Setters
     public String getAccessToken() {
         return accessToken;
     }

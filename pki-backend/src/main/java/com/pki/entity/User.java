@@ -28,7 +28,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    // Constructors
     public User() {}
 
     public User(String username, String password) {
@@ -36,7 +35,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    // UserDetails implementation
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
@@ -62,7 +60,6 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

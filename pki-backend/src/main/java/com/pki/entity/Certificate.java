@@ -65,7 +65,6 @@ public class Certificate {
         END_ENTITY
     }
 
-    // Constructors
     public Certificate() {}
 
     public Certificate(String commonName, String organization, String organizationalUnit,
@@ -80,7 +79,6 @@ public class Certificate {
         this.issuedAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

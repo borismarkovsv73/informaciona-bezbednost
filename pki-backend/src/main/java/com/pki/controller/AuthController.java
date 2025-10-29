@@ -47,7 +47,6 @@ public class AuthController {
         if (tokenProvider.validateToken(refreshToken) && tokenProvider.isRefreshToken(refreshToken)) {
             String username = tokenProvider.getUsernameFromToken(refreshToken);
             
-            // Create authentication for generating new tokens
             UsernamePasswordAuthenticationToken authentication = 
                     new UsernamePasswordAuthenticationToken(username, null, null);
             

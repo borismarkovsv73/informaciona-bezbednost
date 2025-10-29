@@ -31,10 +31,8 @@ public class CertificateRequest {
 
     private String issuerSerialNumber; // Required for INTERMEDIATE and END_ENTITY
 
-    // Constructors
     public CertificateRequest() {}
 
-    // Getters and Setters
     public String getCommonName() {
         return commonName;
     }
